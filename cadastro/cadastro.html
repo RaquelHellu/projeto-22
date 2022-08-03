@@ -13,26 +13,29 @@
 
         <div class="card">
             <h1>Cadastrar</h1>
+            <div id="msgError"></div>
+            <div id="msgSucess"></div>
             <div class="label-float">
-                <input type="text" name="nome" id="nome" placeholder="" required><label for="nome">Nome</label>
+                <input type="text" name="nome" id="nome" placeholder="" required><label for="nome" id="labelNome">Nome</label>
             </div>
             <div class="label-float">
-                <input type="text" name="email" id="email" placeholder="" required><label for="email">E-mail</label>
+                <input type="text" name="email" id="email" placeholder="" required><label for="email" id="labelEmail">E-mail</label>
             </div>
             <div class="label-float">
-                <input type="text" name="usu" id="usu" placeholder="" required><label for="usu">Usuário</label>
+                <input type="text" name="usu" id="usu" placeholder="" required><label for="usu" id="labelUsu">Usuário</label>
             </div>
             <div class="label-float">
-                <input type="password" name="senha" id="senha" placeholder="" required><label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" placeholder="" required><label for="senha" id="labelSenha">Senha</label>
                 <i class="fa fa-eye" aria-hidden="true" id="verSenha"></i>
             </div>
             <div class="label-float">
-                <input type="password" name="confsenha" id="confsenha" placeholder="" required><label for="confsenha">Confirmar Senha</label>
+                <input type="password" name="confsenha" id="confsenha" placeholder="" required><label for="confsenha" id="labelConfSenha">Confirmar Senha</label>
                 <i class="fa fa-eye" aria-hidden="true" id="verConfSenha"></i>
             </div>
 
             <div class="justify-center">
-                <button>Cadastrar</button>
+                <button onclick='cadastrar()'>Cadastrar</button>
+
             </div>
 
         </div>
@@ -40,6 +43,139 @@
     </div>
     <script>
         let btn = document.querySelector('#verSenha');
+        let btnConf = document.querySelector('#verConfSenha');
+        
+        let nome = document.querySelector('#nome');
+        let labelNome = document.querySelector('#labelNome');
+        let validNome = false;
+
+        let email = document.querySelector('#email');
+        let labelEmail = document.querySelector('#labelEmail');
+        let validEmail = false;
+
+        let usu = document.querySelector('#usu');
+        let labelUsu = document.querySelector('#labelUsu');
+        let validUsu = false;
+
+        let senha = document.querySelector('#senha');
+        let labelSenha = document.querySelector('#labelSenha');
+        let validSenha = false;
+
+        let confSenha = document.querySelector('#confsenha');
+        let labelConfSenha = document.querySelector('#labelConfSenha');
+        let validConfSenha = false;
+
+        let msgError = document.querySelector('#msgError')
+        let msgSucess = document.querySelector('#msgSucess')
+
+        nome.addEventListener('keyup', ()=> {
+            if (nome.value.length <=2) {
+                labelNome.setAttribute('style', 'color: #e0374a;')
+                labelNome.innerHTML = 'Nome *Insira no mínimo três caracteres'
+                nome.setAttribute('style', 'border-color: #e0374a')
+                validNome = false
+            } else {
+                labelNome.setAttribute('style', 'color: green;')
+                labelNome.innerHTML = 'Nome'
+                nome.setAttribute('style', 'border-color: green')
+                validNome = true
+            }
+        }
+        )
+
+        email.addEventListener('keyup', ()=> {
+            if (email.value.length <=2) {
+                labelEmail.setAttribute('style', 'color: #e0374a;')
+                labelEmail.innerHTML = 'Email *Insira no mínimo 3 caracteres'
+                nome.setAttribute('style', 'border-color: #e0374a')
+                validEmail = false
+            } else {
+                labelEmail.setAttribute('style', 'color: green;')
+                labelEmail.innerHTML = 'Email'
+                email.setAttribute('style', 'border-color: green')
+                validEmail = true
+            }
+        }
+        )
+
+        usu.addEventListener('keyup', ()=> {
+            if (usu.value.length <=4) {
+                labelUsu.setAttribute('style', 'color: #e0374a;');
+                labelUsu.innerHTML = 'Usuário *Insira no mínimo 5 caracteres';
+                usu.setAttribute('style', 'border-color: #e0374a');
+                validUsu = false;
+            } else {
+                labelUsu.setAttribute('style', 'color: green;');
+                labelUsu.innerHTML = 'Usuário';
+                usu.setAttribute('style', 'border-color: green');
+                validUsu = true;
+            }
+        }
+        )
+
+        senha.addEventListener('keyup', ()=> {
+            if (senha.value.length <=5) {
+                labelSenha.setAttribute('style', 'color: #e0374a;')
+                labelSenha.innerHTML = 'Senha *Insira no mínimo 6 caracteres'
+                senha.setAttribute('style', 'border-color: #e0374a')
+                validSenha = false;
+            } else {
+                labelSenha.setAttribute('style', 'color: green;')
+                labelSenha.innerHTML = 'Senha'
+                senha.setAttribute('style', 'border-color: green')
+                validSenha = true;
+            }
+        }
+        )
+
+        confsenha.addEventListener('keyup', ()=> {
+            if (senha.value != confSenha.value) {
+                labelConfSenha.setAttribute('style', 'color: #e0374a;')
+                labelConfSenha.innerHTML = 'Confirmar Senha *As senhas não conferem'
+                confsenha.setAttribute('style', 'border-color: #e0374a')
+                validConfSenha = false;
+            } else {
+                labelConfSenha.setAttribute('style', 'color: green;')
+                labelConfSenha.innerHTML = 'Confirmar Senha'
+                confsenha.setAttribute('style', 'border-color: green')
+                validConfSenha = true;
+            }
+        }
+        )
+
+
+        function cadastrar() {
+            if(validNome && validUsu && validEmail && validSenha && validConfSenha) {
+                let listaUser = JSON.parse(localStorage.getItem('listaUser') || '[]');
+
+                listaUser.push(
+                    {
+                        nomeCad: nome.value,
+                        emailCad: email.value,
+                        usuCad: usu.value,
+                        senhaCad: senha.value
+                    }
+                );
+
+                localStorage.setItem('listaUser', JSON.stringify(listaUser));
+                
+                msgSucess.setAttribute('style', 'display: block');
+                msgSucess.innerHTML= '<strong>Cadastrando usuário...</strong>'
+                msgError.innerHTML= ''
+                msgError.setAttribute('style', 'display: none');
+
+                setTimeout(()=> {
+                    window.location.href = '..//home/home.html'
+                }, 2500)
+
+            } else {
+                msgError.setAttribute('style', 'display: block')
+                msgError.innerHTML= '<strong>Preencha todos os campos corretamente.</strong>'
+                msgSucess.innerHTML= ''
+                msgSucess.setAttribute('style', 'display: none');
+            }
+        }
+
         btn.addEventListener('click', ()=> {
             let inputSenha = document.getElementById('senha')
             if(inputSenha.getAttribute('type') == 'password'){
@@ -48,8 +184,7 @@
                 inputSenha.setAttribute('type', 'password')
             }
         })
-
-        let btnConf = document.querySelector('#verConfSenha');
+        
         btnConf.addEventListener('click', ()=> {
             let inputSenha = document.getElementById('confsenha')
             if(inputSenha.getAttribute('type') == 'password'){
@@ -58,6 +193,7 @@
                 inputSenha.setAttribute('type', 'password')
             }
         })
+
     </script>
 </body>
 </html>

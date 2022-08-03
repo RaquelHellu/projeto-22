@@ -113,6 +113,26 @@ button:hover {
     color: #A04852;
 }
 
+#msgError {
+    text-align: center;
+    color: #A04852;
+    background-color: #d9a2a9;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    display: none;
+}
+
+#msgSucess {
+    text-align: center;
+    color: rgb(34, 145, 65);
+    background-color: rgb(169, 207, 180);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    display: none;
+}
+
 
 
 
