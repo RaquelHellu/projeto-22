@@ -132,3 +132,13 @@ a:hover {
     cursor: pointer;
     color: #162A4B;
 }
+
+#msgError {
+    text-align: center;
+    color: #A04852;
+    background-color: #d9a2a9;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 15px;
+    display: none;
+}

@@ -14,17 +14,19 @@
         <div class="card">
             <h1>Entrar</h1>
 
+            <div id="msgError"></div>
+
             <div class="label-float">
-                <input type="text" name="usu" id="usu" placeholder="" required><label for="usu">Usuário</label>
+                <input type="text" name="usu" id="usu" placeholder="" required><label for="usu" id="userLabel">Usuário</label>
             </div>
 
             <div class="label-float">
-                <input type="password" name="senha" id="senha" placeholder="" required><label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" placeholder="" required><label for="senha" id="senhaLabel">Senha</label>
                 <i class="fa fa-eye" aria-hidden="true"></i>
             </div>
 
             <div class="justify-center">
-                <button>Entrar</button>
+                <button onclick="entrar()">Entrar</button>
             </div>
 
             <div class="justify-center">
@@ -48,6 +50,58 @@
                 inputSenha.setAttribute('type', 'password')
             }
         })
+
+        function entrar() {
+            let usu = document.querySelector('#usu');
+            let userLabel = document.querySelector('#userLabel');
+
+            let senha = document.querySelector('#senha');
+            let senhaLabel = document.querySelector('#senhaLabel');
+
+            let msgError = document.querySelector('#msgError');
+
+            let listaUser = [];
+
+            let userValid = {
+                nome: '',
+                email: '',
+                user: '',
+                senha: ''
+            }
+
+            listaUser = JSON.parse(localStorage.getItem('listaUser'));
+
+            listaUser.forEach((item) => {
+                if (usu.value == item.usuCad && senha.value == item.senhaCad) {
+                    
+                    userValid = {
+                        nome: item.nomeCad,
+                        email: item.emailCad,
+                        user: item.usuCad,
+                        senha: item.senhaCad
+                    }
+                }
+            })
+
+        if (usu.value == userValid.user && senha.value == userValid.senha) {
+            window.location.href = '/entrar.html';
+
+            let token = Math.random().toString(16).substr(2) + Math.random().toString(16).substr(2);
+            localStorage.setItem('token', token)
+
+            localStorage.setItem('userLogado', JSON.stringify(userValid));
+
+        } else {
+            userLabel.setAttribute('style', 'color: red')
+            usu.setAttribute('style', 'border-color: red')
+            senha.setAttribute('style', 'border-color: red')
+            senhaLabel.setAttribute('style', 'color: red')
+            msgError.setAttribute('style', 'display: block')
+            msgError.innerHTML = 'Usuário/senha inválidos'
+            usu.focus()
+        }
+
+        }
     </script>
 </body>
 </html>
